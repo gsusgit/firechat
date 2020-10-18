@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "firechar",
+      "public": "dist/firechar",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}
