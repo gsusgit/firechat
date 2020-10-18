@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewChecked } from '@angular/core';
+import { ChatService } from "../../services/chat.service";
 
 @Component({
   selector: 'app-chat',
@@ -6,14 +7,32 @@ import { Component } from '@angular/core';
   styles: [
   ]
 })
-export class ChatComponent {
+export class ChatComponent implements AfterViewChecked {
 
+  elemento: any;
   mensaje: string = '';
+  mensajes: any[] = [];
 
-  constructor() { }
+  constructor(public chatService: ChatService) {
+    this.chatService.cargarMensajes().subscribe(mensajes => {
+      this.mensajes = mensajes;
+      setTimeout(() => {
+        this.elemento.scrollTop = this.elemento.scrollHeight;
+      }, 20);
+    });
+  }
+
+  ngAfterViewChecked() {
+    this.elemento = document.getElementById('app-mensajes');
+  }
 
   enviarMensaje() {
-    console.log(this.mensaje);
+    if (this.mensaje.length === 0) {
+      return;
+    } else {
+      this.chatService.agregarMensaje(this.mensaje);
+      this.mensaje = '';
+    }
   }
 
 }

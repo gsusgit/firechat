@@ -1,13 +1,11 @@
-<h4 class="title"><img src="../../../assets/img/logo.png" class="logo"> Chat</h4>
-<hr>
+<div class="header-mensajes">
+  <h4 class="title"><img src="../../../assets/img/logo.png" class="logo"> Chat</h4>
+  <hr>
+</div>
 <div class="app-mensajes" id="app-mensajes">
-  <div class="text-right">
-    <span class="badge badge-primary">Fernando</span>
-    <p>Hola María</p>
-  </div>
-  <div>
-    <span class="badge badge-success">María</span>
-    <p>Saludos Fernando</p>
+  <div class="text-right" *ngFor="let mensaje of mensajes">
+    <span class="badge badge-primary">{{mensaje["nombre"]}}</span>
+    <p>{{mensaje["mensaje"]}}</p>
   </div>
   <input class="form-control caja-mensaje" type="text" placeholder="Enviar mensaje..." name="mensaje" [(ngModel)]="mensaje" (keyup.enter)="enviarMensaje()">
 </div>
