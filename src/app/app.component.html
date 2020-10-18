@@ -1,5 +1,7 @@
 <div class="container app">
   <div class="chat-window shadow-lg p-3 mb-5 bg-white rounded">
-    <app-chat></app-chat>
+    <app-login *ngIf="!chatService.usuario.UID"></app-login>
+    <br>
+    <app-chat *ngIf="chatService.usuario.UID"></app-chat>
   </div>
 </div>

@@ -3,9 +3,20 @@ body {
   background-color: #ccc;
 }
 
+.btn-salir {
+  font-family: 'Roboto', sans-serif;
+}
+
 .app {
   padding: 8px 6px;
   max-width: 98%;
+}
+
+.globo-mensaje {
+  background-color: #f0f0f0;
+  padding: 0.5rem;
+  border-radius: 5px;
+  display: inline-block;
 }
 
 .main-container{
@@ -56,12 +67,16 @@ body {
   position: fixed;
   width: 86%;
   background-color: #fff;
-  margin-top: -4.2%;
+  margin-top: -11.2%;
   padding-top: 4%;
 }
 
 .app-mensajes::-webkit-scrollbar {
   display: none;
+}
+
+.logout {
+  float: right;
 }
 
 /* Animaciones */

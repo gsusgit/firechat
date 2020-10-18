@@ -1,5 +1,6 @@
-import { Component, AfterViewChecked } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChatService } from "../../services/chat.service";
+import { Mensaje } from '../../interfaces/mensaje.interface';
 
 @Component({
   selector: 'app-chat',
@@ -7,22 +8,21 @@ import { ChatService } from "../../services/chat.service";
   styles: [
   ]
 })
-export class ChatComponent implements AfterViewChecked {
+export class ChatComponent implements OnInit {
 
   elemento: any;
   mensaje: string = '';
-  mensajes: any[] = [];
+  mensajes: Mensaje[] = [];
 
   constructor(public chatService: ChatService) {
     this.chatService.cargarMensajes().subscribe(mensajes => {
       this.mensajes = mensajes;
       setTimeout(() => {
-        this.elemento.scrollTop = this.elemento.scrollHeight;
-      }, 20);
+      }, 100);
     });
   }
 
-  ngAfterViewChecked() {
+  ngOnInit() {
     this.elemento = document.getElementById('app-mensajes');
   }
 
@@ -33,6 +33,10 @@ export class ChatComponent implements AfterViewChecked {
       this.chatService.agregarMensaje(this.mensaje);
       this.mensaje = '';
     }
+  }
+
+  logOut() {
+    this.chatService.logout();
   }
 
 }

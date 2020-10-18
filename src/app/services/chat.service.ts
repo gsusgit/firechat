@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Mensaje } from "../interfaces/mensaje.interface";
 import { map } from 'rxjs/operators';
+import { AngularFireAuth } from '@angular/fire/auth';
+import * as firebase from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +11,29 @@ import { map } from 'rxjs/operators';
 export class ChatService {
 
   private itemsCollection: AngularFirestoreCollection<any>;
-
+  public usuario: any = {};
   public chats: Mensaje[] = [];
 
-  constructor(private afs: AngularFirestore) { }
+  constructor(private afs: AngularFirestore, public auth: AngularFireAuth) {
+    this.auth.authState.subscribe(user => {
+      if (!user) {
+        return;
+      } else {
+        console.log(user);
+        this.usuario.nombre = user.displayName;
+        this.usuario.UID = user.uid;
+      }
+    });
+  }
+
+  login() {
+    this.auth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  }
+
+  logout() {
+    this.usuario = {};
+    this.auth.auth.signOut();
+  }
 
   cargarMensajes() {
     this.itemsCollection = this.afs.collection<Mensaje>('chats', ref => ref.orderBy('fecha', 'desc').limit(10));
@@ -28,11 +49,11 @@ export class ChatService {
   }
 
   agregarMensaje(texto: string) {
-    // TODO falta el UID del usuario
     let mensaje: Mensaje = {
-      nombre: 'Fernando',
+      nombre: this.usuario.nombre,
       mensaje: texto,
-      fecha: new Date().getTime()
+      fecha: new Date().getTime(),
+      uid: this.usuario.UID
     }
     this.itemsCollection.add(mensaje)
       .then(() => {

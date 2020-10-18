@@ -1,11 +1,20 @@
 <div class="header-mensajes">
-  <h4 class="title"><img src="../../../assets/img/logo.png" class="logo"> Chat</h4>
+  <h4 class="title">
+    <img src="../../../assets/img/logo.png" class="logo"> Chat
+    <button class="logout btn btn-danger btn-sm btn-salir" (click)="logOut()"><i class="fas fa-power-off"></i> Salir</button>
+  </h4>
   <hr>
 </div>
 <div class="app-mensajes" id="app-mensajes">
-  <div class="text-right" *ngFor="let mensaje of mensajes">
-    <span class="badge badge-primary">{{mensaje["nombre"]}}</span>
-    <p>{{mensaje["mensaje"]}}</p>
+  <div [ngClass]="{'text-right': chatService.usuario.UID == mensaje.uid, 'text-left': chatService.usuario.UID != mensaje.uid}" *ngFor="let mensaje of mensajes">
+
+
+    <p class="globo-mensaje">
+      <span [ngClass]="{'text-success': chatService.usuario.UID == mensaje.uid, 'text-primary': chatService.usuario.UID != mensaje.uid}">
+        <small><strong>{{mensaje["nombre"]}}</strong></small></span>
+      <br>{{mensaje["mensaje"]}}</p>
+
+
   </div>
   <input class="form-control caja-mensaje" type="text" placeholder="Enviar mensaje..." name="mensaje" [(ngModel)]="mensaje" (keyup.enter)="enviarMensaje()">
 </div>
